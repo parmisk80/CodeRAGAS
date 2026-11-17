@@ -1,0 +1,624 @@
+[
+  {
+    "id": "B01_correct",
+    "pair_id": "B01",
+    "category": "bug",
+    "task": "Calculate the average of a list of numbers. Raise ValueError if the list is empty.",
+    "context": "The function must raise ValueError for an empty list. It must not modify the input list.",
+    "code": "def average(nums):\n    if not nums:\n        raise ValueError('List cannot be empty')\n    return sum(nums) / len(nums)",
+    "label": 1,
+    "notes": "Correctly handles empty and non-empty lists.",
+    "tests": [
+      "assert average([2, 4, 6]) == 4",
+      "assert average([5]) == 5",
+      "try:\n    average([])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "nums = [2, 4, 6]\naverage(nums)\nassert nums == [2, 4, 6]"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B01_flawed",
+    "pair_id": "B01",
+    "category": "bug",
+    "task": "Calculate the average of a list of numbers. Raise ValueError if the list is empty.",
+    "context": "The function must raise ValueError for an empty list. It must not modify the input list.",
+    "code": "def average(nums):\n    return sum(nums) / len(nums)",
+    "label": 0,
+    "notes": "Does not explicitly handle empty lists and raises ZeroDivisionError instead of ValueError.",
+    "tests": [
+      "assert average([2, 4, 6]) == 4",
+      "assert average([5]) == 5",
+      "try:\n    average([])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "nums = [2, 4, 6]\naverage(nums)\nassert nums == [2, 4, 6]"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B02_correct",
+    "pair_id": "B02",
+    "category": "bug",
+    "task": "Write a Python program that asks the user to enter a number and checks whether the number is even or odd.",
+    "context": "You are developing a simple number classification program. The program needs to determine whether a given number is even or odd. This can be useful in many applications, such as organizing numbers into different groups. Put the logic in a function check_even_odd(number) that returns 'Even' or 'Odd', and a main() function that reads the number with input() and prints the result. Call main() inside an if __name__ == '__main__' block.",
+    "code": "def check_even_odd(number):\n    if number % 2 == 0:\n        return 'Even'\n    return 'Odd'\n\ndef main():\n    number = int(input('Enter a number: '))\n    print(check_even_odd(number))\n\nif __name__ == '__main__':\n    main()",
+    "label": 1,
+    "notes": "Uses input() to get a number, int() to convert it, the % operator to check the remainder, and if/else to return Even or Odd. Works for zero and negative numbers.",
+    "tests": [
+      "assert check_even_odd(4) == 'Even'",
+      "assert check_even_odd(7) == 'Odd'",
+      "assert check_even_odd(0) == 'Even'",
+      "assert check_even_odd(-4) == 'Even'",
+      "assert check_even_odd(-3) == 'Odd'",
+      "import io, contextlib\nfrom unittest import mock\nbuf = io.StringIO()\nwith mock.patch('builtins.input', return_value='4'), contextlib.redirect_stdout(buf):\n    main()\nassert buf.getvalue().strip() == 'Even'",
+      "import io, contextlib\nfrom unittest import mock\nbuf = io.StringIO()\nwith mock.patch('builtins.input', return_value='7'), contextlib.redirect_stdout(buf):\n    main()\nassert buf.getvalue().strip() == 'Odd'"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B02_flawed",
+    "pair_id": "B02",
+    "category": "bug",
+    "task": "Write a Python program that asks the user to enter a number and checks whether the number is even or odd.",
+    "context": "You are developing a simple number classification program. The program needs to determine whether a given number is even or odd. This can be useful in many applications, such as organizing numbers into different groups. Put the logic in a function check_even_odd(number) that returns 'Even' or 'Odd', and a main() function that reads the number with input() and prints the result. Call main() inside an if __name__ == '__main__' block.",
+    "code": "def check_even_odd(number):\n    if number % 2 == 0 and number > 0:\n        return 'Even'\n    return 'Odd'\n\ndef main():\n    number = int(input('Enter a number: '))\n    print(check_even_odd(number))\n\nif __name__ == '__main__':\n    main()",
+    "label": 0,
+    "notes": "Adds an unnecessary number > 0 condition, so 0 and negative even numbers are wrongly classified as Odd.",
+    "tests": [
+      "assert check_even_odd(4) == 'Even'",
+      "assert check_even_odd(7) == 'Odd'",
+      "assert check_even_odd(0) == 'Even'",
+      "assert check_even_odd(-4) == 'Even'",
+      "assert check_even_odd(-3) == 'Odd'",
+      "import io, contextlib\nfrom unittest import mock\nbuf = io.StringIO()\nwith mock.patch('builtins.input', return_value='4'), contextlib.redirect_stdout(buf):\n    main()\nassert buf.getvalue().strip() == 'Even'",
+      "import io, contextlib\nfrom unittest import mock\nbuf = io.StringIO()\nwith mock.patch('builtins.input', return_value='7'), contextlib.redirect_stdout(buf):\n    main()\nassert buf.getvalue().strip() == 'Odd'"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B03_correct",
+    "pair_id": "B03",
+    "category": "bug",
+    "task": "Find the largest number in a list of numbers. Raise ValueError if the list is empty.",
+    "context": "The function must work for lists containing only negative numbers. It must raise ValueError for an empty list and must not modify the input list.",
+    "code": "def find_max(nums):\n    if not nums:\n        raise ValueError('List cannot be empty')\n    max_val = nums[0]\n    for n in nums[1:]:\n        if n > max_val:\n            max_val = n\n    return max_val",
+    "label": 1,
+    "notes": "Correctly initializes the maximum with the first element and handles the empty list.",
+    "tests": [
+      "assert find_max([3, 7, 2]) == 7",
+      "assert find_max([-5, -2, -9]) == -2",
+      "try:\n    find_max([])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "nums = [3, 7, 2]\nfind_max(nums)\nassert nums == [3, 7, 2]"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B03_flawed",
+    "pair_id": "B03",
+    "category": "bug",
+    "task": "Find the largest number in a list of numbers. Raise ValueError if the list is empty.",
+    "context": "The function must work for lists containing only negative numbers. It must raise ValueError for an empty list and must not modify the input list.",
+    "code": "def find_max(nums):\n    max_val = 0\n    for n in nums:\n        if n > max_val:\n            max_val = n\n    return max_val",
+    "label": 0,
+    "notes": "Initializes max_val to 0, so lists with only negative numbers return 0, and an empty list does not raise ValueError.",
+    "tests": [
+      "assert find_max([3, 7, 2]) == 7",
+      "assert find_max([-5, -2, -9]) == -2",
+      "try:\n    find_max([])\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "nums = [3, 7, 2]\nfind_max(nums)\nassert nums == [3, 7, 2]"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B04_correct",
+    "pair_id": "B04",
+    "category": "bug",
+    "task": "Write a function that checks whether a string is a palindrome. Ignore case, spaces and punctuation.",
+    "context": "A palindrome reads the same forwards and backwards. For example, 'A man, a plan, a canal: Panama' is a palindrome when case, spaces and punctuation are ignored.",
+    "code": "def is_palindrome(s):\n    cleaned = ''.join(c.lower() for c in s if c.isalnum())\n    return cleaned == cleaned[::-1]",
+    "label": 1,
+    "notes": "Removes non-alphanumeric characters, lowercases the string, then compares it with its reverse.",
+    "tests": [
+      "assert is_palindrome('racecar') == True",
+      "assert is_palindrome('Racecar') == True",
+      "assert is_palindrome('A man, a plan, a canal: Panama') == True",
+      "assert is_palindrome('hello') == False"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B04_flawed",
+    "pair_id": "B04",
+    "category": "bug",
+    "task": "Write a function that checks whether a string is a palindrome. Ignore case, spaces and punctuation.",
+    "context": "A palindrome reads the same forwards and backwards. For example, 'A man, a plan, a canal: Panama' is a palindrome when case, spaces and punctuation are ignored.",
+    "code": "def is_palindrome(s):\n    return s == s[::-1]",
+    "label": 0,
+    "notes": "Compares the raw string with its reverse, so it is case-sensitive and does not ignore spaces or punctuation.",
+    "tests": [
+      "assert is_palindrome('racecar') == True",
+      "assert is_palindrome('Racecar') == True",
+      "assert is_palindrome('A man, a plan, a canal: Panama') == True",
+      "assert is_palindrome('hello') == False"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B05_correct",
+    "pair_id": "B05",
+    "category": "bug",
+    "task": "Write a function that counts the number of vowels (a, e, i, o, u) in a string, ignoring case.",
+    "context": "Both uppercase and lowercase vowels must be counted. The function should return 0 for an empty string.",
+    "code": "def count_vowels(text):\n    count = 0\n    for ch in text.lower():\n        if ch in 'aeiou':\n            count += 1\n    return count",
+    "label": 1,
+    "notes": "Converts the text to lowercase before checking, so uppercase vowels are counted too.",
+    "tests": [
+      "assert count_vowels('hello') == 2",
+      "assert count_vowels('Hello World') == 3",
+      "assert count_vowels('AEIOU') == 5",
+      "assert count_vowels('') == 0"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B05_flawed",
+    "pair_id": "B05",
+    "category": "bug",
+    "task": "Write a function that counts the number of vowels (a, e, i, o, u) in a string, ignoring case.",
+    "context": "Both uppercase and lowercase vowels must be counted. The function should return 0 for an empty string.",
+    "code": "def count_vowels(text):\n    count = 0\n    for ch in text:\n        if ch in 'aeiou':\n            count += 1\n    return count",
+    "label": 0,
+    "notes": "Does not lowercase the text, so uppercase vowels are not counted.",
+    "tests": [
+      "assert count_vowels('hello') == 2",
+      "assert count_vowels('Hello World') == 3",
+      "assert count_vowels('AEIOU') == 5",
+      "assert count_vowels('') == 0"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B06_correct",
+    "pair_id": "B06",
+    "category": "bug",
+    "task": "Write a function that returns the factorial of a non-negative integer n. Raise ValueError if n is negative.",
+    "context": "factorial(0) must return 1. The function must raise ValueError for negative input.",
+    "code": "def factorial(n):\n    if n < 0:\n        raise ValueError('n must be non-negative')\n    result = 1\n    for i in range(1, n + 1):\n        result *= i\n    return result",
+    "label": 1,
+    "notes": "Loops from 1 to n inclusive and raises ValueError for negative input.",
+    "tests": [
+      "assert factorial(5) == 120",
+      "assert factorial(0) == 1",
+      "assert factorial(3) == 6",
+      "try:\n    factorial(-1)\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "B06_flawed",
+    "pair_id": "B06",
+    "category": "bug",
+    "task": "Write a function that returns the factorial of a non-negative integer n. Raise ValueError if n is negative.",
+    "context": "factorial(0) must return 1. The function must raise ValueError for negative input.",
+    "code": "def factorial(n):\n    result = 1\n    for i in range(1, n):\n        result *= i\n    return result",
+    "label": 0,
+    "notes": "Off-by-one error: range(1, n) skips n, so factorial(5) returns 24 instead of 120. Also does not raise ValueError for negative input.",
+    "tests": [
+      "assert factorial(5) == 120",
+      "assert factorial(0) == 1",
+      "assert factorial(3) == 6",
+      "try:\n    factorial(-1)\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S01_secure",
+    "pair_id": "S01",
+    "category": "insecure",
+    "task": "Write a function get_user(conn, username) that looks up a user by username in a SQLite database and returns the row (id, username), or None if not found.",
+    "context": "The username comes directly from user input. The function must be safe against SQL injection.",
+    "code": "def get_user(conn, username):\n    cur = conn.execute('SELECT id, username FROM users WHERE username = ?', (username,))\n    return cur.fetchone()",
+    "label": 1,
+    "notes": "Uses a parameterized query, so user input is never interpreted as SQL.",
+    "tests": [
+      "import sqlite3\nconn = sqlite3.connect(':memory:')\nconn.execute('CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT)')\nconn.execute(\"INSERT INTO users (username) VALUES ('alice'), ('bob')\")\nassert get_user(conn, 'alice') == (1, 'alice')\nassert get_user(conn, 'bob') == (2, 'bob')\nassert get_user(conn, 'nobody') is None",
+      "import sqlite3\nconn = sqlite3.connect(':memory:')\nconn.execute('CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT)')\nconn.execute(\"INSERT INTO users (username) VALUES ('alice'), ('bob')\")\nassert get_user(conn, \"' OR '1'='1\") is None"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S01_insecure",
+    "pair_id": "S01",
+    "category": "insecure",
+    "task": "Write a function get_user(conn, username) that looks up a user by username in a SQLite database and returns the row (id, username), or None if not found.",
+    "context": "The username comes directly from user input. The function must be safe against SQL injection.",
+    "code": "def get_user(conn, username):\n    query = f\"SELECT id, username FROM users WHERE username = '{username}'\"\n    return conn.execute(query).fetchone()",
+    "label": 0,
+    "notes": "Builds the SQL query with an f-string, so input like \"' OR '1'='1\" is injected into the query (SQL injection).",
+    "tests": [
+      "import sqlite3\nconn = sqlite3.connect(':memory:')\nconn.execute('CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT)')\nconn.execute(\"INSERT INTO users (username) VALUES ('alice'), ('bob')\")\nassert get_user(conn, 'alice') == (1, 'alice')\nassert get_user(conn, 'bob') == (2, 'bob')\nassert get_user(conn, 'nobody') is None",
+      "import sqlite3\nconn = sqlite3.connect(':memory:')\nconn.execute('CREATE TABLE users (id INTEGER PRIMARY KEY, username TEXT)')\nconn.execute(\"INSERT INTO users (username) VALUES ('alice'), ('bob')\")\nassert get_user(conn, \"' OR '1'='1\") is None"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S02_secure",
+    "pair_id": "S02",
+    "category": "insecure",
+    "task": "Write two functions: hash_password(password) that returns a string to store in the database, and verify_password(password, stored) that checks a password against the stored string.",
+    "context": "The stored value will be kept in a user database. Two users with the same password must not end up with the same stored value, and a leaked database must not make passwords easy to crack.",
+    "code": "import hashlib\nimport hmac\nimport os\n\ndef hash_password(password):\n    salt = os.urandom(16)\n    dk = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 200000)\n    return salt.hex() + ':' + dk.hex()\n\ndef verify_password(password, stored):\n    salt_hex, hash_hex = stored.split(':')\n    dk = hashlib.pbkdf2_hmac('sha256', password.encode(), bytes.fromhex(salt_hex), 200000)\n    return hmac.compare_digest(dk.hex(), hash_hex)",
+    "label": 1,
+    "notes": "Uses a random per-user salt with PBKDF2 (many iterations) and a constant-time comparison.",
+    "tests": [
+      "stored = hash_password('s3cret')\nassert verify_password('s3cret', stored) is True\nassert verify_password('wrong', stored) is False",
+      "first = hash_password('s3cret')\nsecond = hash_password('s3cret')\nassert first != second",
+      "salt_hex, hash_hex = hash_password('s3cret').split(':')\nassert len(bytes.fromhex(salt_hex)) == 16\nassert len(bytes.fromhex(hash_hex)) == 32"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S02_insecure",
+    "pair_id": "S02",
+    "category": "insecure",
+    "task": "Write two functions: hash_password(password) that returns a string to store in the database, and verify_password(password, stored) that checks a password against the stored string.",
+    "context": "The stored value will be kept in a user database. Two users with the same password must not end up with the same stored value, and a leaked database must not make passwords easy to crack.",
+    "code": "import hashlib\n\ndef hash_password(password):\n    return hashlib.md5(password.encode()).hexdigest()\n\ndef verify_password(password, stored):\n    return hash_password(password) == stored",
+    "label": 0,
+    "notes": "Uses unsalted MD5, which is fast and easy to crack with rainbow tables; identical passwords produce identical hashes. The comparison is also not constant-time.",
+    "tests": [
+      "stored = hash_password('s3cret')\nassert verify_password('s3cret', stored) is True\nassert verify_password('wrong', stored) is False",
+      "first = hash_password('s3cret')\nsecond = hash_password('s3cret')\nassert first != second",
+      "salt_hex, hash_hex = hash_password('s3cret').split(':')\nassert len(bytes.fromhex(salt_hex)) == 16\nassert len(bytes.fromhex(hash_hex)) == 32"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S03_secure",
+    "pair_id": "S03",
+    "category": "insecure",
+    "task": "Write a function read_user_file(base_dir, filename) that returns the text content of a file that a user requested from inside base_dir.",
+    "context": "filename comes from user input. The function must only read files inside base_dir and must raise ValueError if the requested path is outside it.",
+    "code": "import os\n\ndef read_user_file(base_dir, filename):\n    base = os.path.realpath(base_dir)\n    path = os.path.realpath(os.path.join(base, filename))\n    if os.path.commonpath([base, path]) != base:\n        raise ValueError('Invalid file path')\n    with open(path, encoding='utf-8') as f:\n        return f.read()",
+    "label": 1,
+    "notes": "Resolves the real path and verifies it stays inside base_dir before opening the file.",
+    "tests": [
+      "import os, tempfile\nroot = tempfile.mkdtemp()\nbase = os.path.join(root, 'public')\nos.mkdir(base)\nopen(os.path.join(base, 'a.txt'), 'w').write('hello')\nassert read_user_file(base, 'a.txt') == 'hello'",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\nbase = os.path.join(root, 'public')\nos.mkdir(base)\nopen(os.path.join(root, 'secret.txt'), 'w').write('top secret')\ntry:\n    read_user_file(base, '../secret.txt')\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\nbase = os.path.join(root, 'public')\nos.mkdir(base)\nsecret = os.path.join(root, 'secret.txt')\nopen(secret, 'w').write('top secret')\ntry:\n    read_user_file(base, secret)\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S03_insecure",
+    "pair_id": "S03",
+    "category": "insecure",
+    "task": "Write a function read_user_file(base_dir, filename) that returns the text content of a file that a user requested from inside base_dir.",
+    "context": "filename comes from user input. The function must only read files inside base_dir and must raise ValueError if the requested path is outside it.",
+    "code": "import os\n\ndef read_user_file(base_dir, filename):\n    path = os.path.join(base_dir, filename)\n    with open(path) as f:\n        return f.read()",
+    "label": 0,
+    "notes": "Joins the user-supplied filename without validation, so '../secret.txt' or an absolute path reads files outside base_dir (path traversal).",
+    "tests": [
+      "import os, tempfile\nroot = tempfile.mkdtemp()\nbase = os.path.join(root, 'public')\nos.mkdir(base)\nopen(os.path.join(base, 'a.txt'), 'w').write('hello')\nassert read_user_file(base, 'a.txt') == 'hello'",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\nbase = os.path.join(root, 'public')\nos.mkdir(base)\nopen(os.path.join(root, 'secret.txt'), 'w').write('top secret')\ntry:\n    read_user_file(base, '../secret.txt')\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\nbase = os.path.join(root, 'public')\nos.mkdir(base)\nsecret = os.path.join(root, 'secret.txt')\nopen(secret, 'w').write('top secret')\ntry:\n    read_user_file(base, secret)\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S04_secure",
+    "pair_id": "S04",
+    "category": "insecure",
+    "task": "Write a function count_lines(filename) that returns the number of lines in a file by using the system 'wc -l' command.",
+    "context": "filename comes from user input. The function must raise ValueError if the file does not exist, and user input must never be executed as a shell command.",
+    "code": "import os\nimport subprocess\n\ndef count_lines(filename):\n    if not os.path.isfile(filename):\n        raise ValueError('File not found')\n    out = subprocess.check_output(['wc', '-l', '--', filename], text=True)\n    return int(out.split()[0])",
+    "label": 1,
+    "notes": "Validates the file exists and passes arguments as a list without a shell, so input is never interpreted as a command.",
+    "tests": [
+      "import os, tempfile\nroot = tempfile.mkdtemp()\np = os.path.join(root, 'f.txt')\nopen(p, 'w').write('a\\nb\\nc\\n')\nassert count_lines(p) == 3",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\np = os.path.join(root, 'f.txt')\nopen(p, 'w').write('a\\n')\ntry:\n    count_lines(p + '; echo INJECTED')\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\np = os.path.join(root, 'f.txt')\nmarker = os.path.join(root, 'pwned')\nopen(p, 'w').write('a\\n')\ntry:\n    count_lines(p + '; touch ' + marker)\nexcept Exception:\n    pass\nassert not os.path.exists(marker)"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S04_insecure",
+    "pair_id": "S04",
+    "category": "insecure",
+    "task": "Write a function count_lines(filename) that returns the number of lines in a file by using the system 'wc -l' command.",
+    "context": "filename comes from user input. The function must raise ValueError if the file does not exist, and user input must never be executed as a shell command.",
+    "code": "import subprocess\n\ndef count_lines(filename):\n    out = subprocess.check_output(f'wc -l {filename}', shell=True, text=True)\n    return int(out.split()[0])",
+    "label": 0,
+    "notes": "Builds a shell command string with shell=True, so input like 'file.txt; touch /tmp/x' executes extra commands (command injection).",
+    "tests": [
+      "import os, tempfile\nroot = tempfile.mkdtemp()\np = os.path.join(root, 'f.txt')\nopen(p, 'w').write('a\\nb\\nc\\n')\nassert count_lines(p) == 3",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\np = os.path.join(root, 'f.txt')\nopen(p, 'w').write('a\\n')\ntry:\n    count_lines(p + '; echo INJECTED')\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')",
+      "import os, tempfile\nroot = tempfile.mkdtemp()\np = os.path.join(root, 'f.txt')\nmarker = os.path.join(root, 'pwned')\nopen(p, 'w').write('a\\n')\ntry:\n    count_lines(p + '; touch ' + marker)\nexcept Exception:\n    pass\nassert not os.path.exists(marker)"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S05_secure",
+    "pair_id": "S05",
+    "category": "insecure",
+    "task": "Write a function parse_user_input(text) that converts a string typed by a user, such as '[1, 2, 3]' or '{\"a\": 1}', into the matching Python list, dict, number or string.",
+    "context": "text comes from an untrusted user. The function must only parse literal values and must never execute code. It should raise ValueError for anything that is not a plain literal.",
+    "code": "import ast\n\ndef parse_user_input(text):\n    try:\n        return ast.literal_eval(text)\n    except (ValueError, SyntaxError, TypeError) as exc:\n        raise ValueError('Input must be a valid Python literal') from exc",
+    "label": 1,
+    "notes": "Uses ast.literal_eval, which only accepts Python literals and raises ValueError for anything else.",
+    "tests": [
+      "assert parse_user_input('[1, 2, 3]') == [1, 2, 3]\nassert parse_user_input('{\"a\": 1}') == {'a': 1}\nassert parse_user_input('42') == 42",
+      "import os\nos.environ.pop('PWNED', None)\ntry:\n    parse_user_input(\"__import__('os').environ.__setitem__('PWNED', '1')\")\nexcept ValueError:\n    pass\nassert 'PWNED' not in os.environ",
+      "try:\n    parse_user_input(\"__import__('os').getcwd()\")\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "S05_insecure",
+    "pair_id": "S05",
+    "category": "insecure",
+    "task": "Write a function parse_user_input(text) that converts a string typed by a user, such as '[1, 2, 3]' or '{\"a\": 1}', into the matching Python list, dict, number or string.",
+    "context": "text comes from an untrusted user. The function must only parse literal values and must never execute code. It should raise ValueError for anything that is not a plain literal.",
+    "code": "def parse_user_input(text):\n    return eval(text)",
+    "label": 0,
+    "notes": "Uses eval() on untrusted input, which allows arbitrary code execution, e.g. \"__import__('os').system(...)\".",
+    "tests": [
+      "assert parse_user_input('[1, 2, 3]') == [1, 2, 3]\nassert parse_user_input('{\"a\": 1}') == {'a': 1}\nassert parse_user_input('42') == 42",
+      "import os\nos.environ.pop('PWNED', None)\ntry:\n    parse_user_input(\"__import__('os').environ.__setitem__('PWNED', '1')\")\nexcept ValueError:\n    pass\nassert 'PWNED' not in os.environ",
+      "try:\n    parse_user_input(\"__import__('os').getcwd()\")\nexcept ValueError:\n    pass\nelse:\n    raise AssertionError('Expected ValueError')"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H01_correct",
+    "pair_id": "H01",
+    "category": "hallucinated_api",
+    "task": "Write a function flatten(nested) that takes a list of lists and returns a single flat list with all the items in order.",
+    "context": "Use only the Python standard library. Only one level of nesting needs to be handled. The input must not be modified.",
+    "code": "import itertools\n\ndef flatten(nested):\n    return list(itertools.chain.from_iterable(nested))",
+    "label": 1,
+    "notes": "Uses the real itertools.chain.from_iterable to flatten one level of nesting.",
+    "tests": [
+      "assert flatten([[1, 2], [3], [4, 5]]) == [1, 2, 3, 4, 5]",
+      "assert flatten([]) == []",
+      "assert flatten([[], [1], []]) == [1]"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H01_flawed",
+    "pair_id": "H01",
+    "category": "hallucinated_api",
+    "task": "Write a function flatten(nested) that takes a list of lists and returns a single flat list with all the items in order.",
+    "context": "Use only the Python standard library. Only one level of nesting needs to be handled. The input must not be modified.",
+    "code": "import itertools\n\ndef flatten(nested):\n    return list(itertools.flatten(nested))",
+    "label": 0,
+    "notes": "Calls itertools.flatten, which does not exist in the standard library, so it raises AttributeError.",
+    "tests": [
+      "assert flatten([[1, 2], [3], [4, 5]]) == [1, 2, 3, 4, 5]",
+      "assert flatten([]) == []",
+      "assert flatten([[], [1], []]) == [1]"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H02_correct",
+    "pair_id": "H02",
+    "category": "hallucinated_api",
+    "task": "Write a function load_config(path) that reads a JSON file from disk and returns its content as a Python dict.",
+    "context": "Use only the Python standard library. The file is UTF-8 encoded JSON.",
+    "code": "import json\n\ndef load_config(path):\n    with open(path, encoding='utf-8') as f:\n        return json.load(f)",
+    "label": 1,
+    "notes": "Opens the file and parses it with the real json.load function.",
+    "tests": [
+      "import os, tempfile\np = os.path.join(tempfile.mkdtemp(), 'c.json')\nopen(p, 'w', encoding='utf-8').write('{\"debug\": true, \"port\": 8080}')\nassert load_config(p) == {'debug': True, 'port': 8080}",
+      "import os, tempfile\np = os.path.join(tempfile.mkdtemp(), 'e.json')\nopen(p, 'w', encoding='utf-8').write('{}')\nassert load_config(p) == {}"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H02_flawed",
+    "pair_id": "H02",
+    "category": "hallucinated_api",
+    "task": "Write a function load_config(path) that reads a JSON file from disk and returns its content as a Python dict.",
+    "context": "Use only the Python standard library. The file is UTF-8 encoded JSON.",
+    "code": "import json\n\ndef load_config(path):\n    return json.read(path)",
+    "label": 0,
+    "notes": "Calls json.read, which does not exist (the json module has load, loads, dump and dumps), so it raises AttributeError.",
+    "tests": [
+      "import os, tempfile\np = os.path.join(tempfile.mkdtemp(), 'c.json')\nopen(p, 'w', encoding='utf-8').write('{\"debug\": true, \"port\": 8080}')\nassert load_config(p) == {'debug': True, 'port': 8080}",
+      "import os, tempfile\np = os.path.join(tempfile.mkdtemp(), 'e.json')\nopen(p, 'w', encoding='utf-8').write('{}')\nassert load_config(p) == {}"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H03_correct",
+    "pair_id": "H03",
+    "category": "hallucinated_api",
+    "task": "Write a function clamp(x, low, high) that limits x to the range [low, high] and returns the result.",
+    "context": "Use only the Python standard library. If x is below low return low, if x is above high return high, otherwise return x.",
+    "code": "def clamp(x, low, high):\n    return max(low, min(x, high))",
+    "label": 1,
+    "notes": "Combines the built-in min and max to limit the value to the range.",
+    "tests": [
+      "assert clamp(5, 0, 10) == 5",
+      "assert clamp(-3, 0, 10) == 0",
+      "assert clamp(42, 0, 10) == 10",
+      "assert clamp(2.5, 0, 1) == 1"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H03_flawed",
+    "pair_id": "H03",
+    "category": "hallucinated_api",
+    "task": "Write a function clamp(x, low, high) that limits x to the range [low, high] and returns the result.",
+    "context": "Use only the Python standard library. If x is below low return low, if x is above high return high, otherwise return x.",
+    "code": "import math\n\ndef clamp(x, low, high):\n    return math.clamp(x, low, high)",
+    "label": 0,
+    "notes": "Calls math.clamp, which does not exist in Python's math module, so it raises AttributeError.",
+    "tests": [
+      "assert clamp(5, 0, 10) == 5",
+      "assert clamp(-3, 0, 10) == 0",
+      "assert clamp(42, 0, 10) == 10",
+      "assert clamp(2.5, 0, 1) == 1"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H04_correct",
+    "pair_id": "H04",
+    "category": "hallucinated_api",
+    "task": "Write a function top_words(text, n) that returns a list of the n most common words in the text as (word, count) tuples, ordered from most to least common. Words are separated by whitespace and compared in lowercase.",
+    "context": "Use only the Python standard library. Ties may be returned in any order; the tests avoid ties.",
+    "code": "from collections import Counter\n\ndef top_words(text, n):\n    words = text.lower().split()\n    return Counter(words).most_common(n)",
+    "label": 1,
+    "notes": "Uses the real Counter.most_common method.",
+    "tests": [
+      "assert top_words('a b a c a b', 2) == [('a', 3), ('b', 2)]",
+      "assert top_words('Hello hello HELLO world', 1) == [('hello', 3)]",
+      "assert top_words('', 3) == []"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H04_flawed",
+    "pair_id": "H04",
+    "category": "hallucinated_api",
+    "task": "Write a function top_words(text, n) that returns a list of the n most common words in the text as (word, count) tuples, ordered from most to least common. Words are separated by whitespace and compared in lowercase.",
+    "context": "Use only the Python standard library. Ties may be returned in any order; the tests avoid ties.",
+    "code": "from collections import Counter\n\ndef top_words(text, n):\n    words = text.lower().split()\n    return Counter(words).top(n)",
+    "label": 0,
+    "notes": "Calls Counter.top, which does not exist (the real method is most_common), so it raises AttributeError.",
+    "tests": [
+      "assert top_words('a b a c a b', 2) == [('a', 3), ('b', 2)]",
+      "assert top_words('Hello hello HELLO world', 1) == [('hello', 3)]",
+      "assert top_words('', 3) == []"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H05_correct",
+    "pair_id": "H05",
+    "category": "hallucinated_api",
+    "task": "Write a function today_iso() that returns today's local date as a string in ISO format, for example '2026-11-16'.",
+    "context": "Use only the Python standard library.",
+    "code": "import datetime\n\ndef today_iso():\n    return datetime.date.today().isoformat()",
+    "label": 1,
+    "notes": "Uses the real date.isoformat method.",
+    "tests": [
+      "import datetime\nassert today_iso() == datetime.date.today().isoformat()",
+      "import re\nassert re.fullmatch(r'\\d{4}-\\d{2}-\\d{2}', today_iso())"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  },
+  {
+    "id": "H05_flawed",
+    "pair_id": "H05",
+    "category": "hallucinated_api",
+    "task": "Write a function today_iso() that returns today's local date as a string in ISO format, for example '2026-11-16'.",
+    "context": "Use only the Python standard library.",
+    "code": "import datetime\n\ndef today_iso():\n    return datetime.date.today().to_iso()",
+    "label": 0,
+    "notes": "Calls date.to_iso, which does not exist (the real method is isoformat), so it raises AttributeError.",
+    "tests": [
+      "import datetime\nassert today_iso() == datetime.date.today().isoformat()",
+      "import re\nassert re.fullmatch(r'\\d{4}-\\d{2}-\\d{2}', today_iso())"
+    ],
+    "creation_method": "human",
+    "human_label_a": null,
+    "human_label_b": null,
+    "review_status": "pending"
+  }
+]
